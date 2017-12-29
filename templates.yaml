@@ -3,4 +3,4 @@ points: '{{ h }} has {{ p }} points'
 points_all: 'blue has {{ p["b"] }} points, green has {{ p["g"] }}
   points, red has {{ p["r"] }} points, and yellow has {{ p["y"] }} points'
 
-headline: 'the headline is {{ t }}, published by {{a}} on {{d}}.'
+headline: 'the headline is {{ t }}, published by {{ a }} on {{ d }}.'

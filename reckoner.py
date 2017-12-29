@@ -35,7 +35,7 @@ def headline():
     title = featurebox.h3.a.contents
     author = featurebox.div.p.a.contents
     date = featurebox.div.p.span.contents
-    return statement(render_template("headline", t=title, a=author, d='date'))
+    return statement(render_template("headline", t=title, a=author, d=date))
 
 if __name__ == "__main__":
     app.run(debug=True)
