@@ -2,6 +2,7 @@
 An Alexa skill to look up content from The Reckoner homepage.
 """
 
+import re
 import urllib.request
 
 import bs4
@@ -19,10 +20,14 @@ def points(house):
     """Return a summary of the house points (or all of them)"""
 
     ## Scrape house points
-    housePoints = {
-        colour: int(reckonerPage.find(id="mgci-points-" + colour).string)
-                for colour in ["blue", "green", "red", "yellow"]
-    }
+    # First, get the contents of the <script> that manipulates the
+    # house points bar graph. That contains a JS object with the
+    # points. Next, use a regex to find (colour, points)
+    # pairs. Finally, convert the list of pairs to a dict.
+    script = reckonerPage.find(id="mgci-points-wrapper").next_sibling.next_sibling.string
+    pointsExtractor = re.compile(r"\"mgci-points-(blue|green|red|yellow)\": ?(\d+)")
+    pointsGroups = pointsExtractor.findall(script)
+    housePoints = dict(pointsGroups)
 
     # Normalize house names
     synonyms = {
@@ -38,7 +43,7 @@ def points(house):
 
     if house is None:
         return statement(render_template("points_all", p=housePoints))
-    elif normHouse in ["blue", "green", "red", "yellow"]:
+    else:
         return statement(render_template("points", h=house, p=housePoints[normHouse]))
 
 @ask.intent("Headline")
