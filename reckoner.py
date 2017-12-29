@@ -18,16 +18,28 @@ reckonerPage = bs4.BeautifulSoup(urllib.request.urlopen(req).read())
 def points(house):
     """Return a summary of the house points (or all of them)"""
 
-    if house is None:
-        points = {
-            "r": 450,
-            "g": 450,
-            "y": 450,
-            "b": 450
-        }
-        return statement(render_template("points_all", p=points))
+    ## Scrape house points
+    housePoints = {
+        colour: int(reckonerPage.find(id="mgci-points-" + colour).string)
+                for colour in ["blue", "green", "red", "yellow"]
+    }
 
-    return statement(render_template("points", h=house, p=450))
+    # Normalize house names
+    synonyms = {
+        "blue house": "blue", "house blue": "blue", "ravenclaw": "blue",
+        "green house": "green", "house green": "green", "slytherin": "green",
+        "red house": "red", "house red": "red", "gryffindor": "red",
+        "yellow house": "yellow", "house yellow": "yellow", "hufflepuff": "yellow"
+    }
+    if house not in synonyms:
+        house = None
+    else:
+        normHouse = synonyms[house]
+
+    if house is None:
+        return statement(render_template("points_all", p=housePoints))
+    elif normHouse in ["blue", "green", "red", "yellow"]:
+        return statement(render_template("points", h=house, p=housePoints[normHouse]))
 
 @ask.intent("Headline")
 def headline():
