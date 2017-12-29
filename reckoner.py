@@ -2,11 +2,16 @@
 An Alexa skill to look up content from The Reckoner homepage.
 """
 
+import urllib2
+
+import beautifulsoup
 from flask import Flask, render_template
 from flask_ask import Ask, statement
 
 app = Flask(__name__)
 ask = Ask(app, "/")
+
+reckonerPage = beautifulsoup.BeautifulSoup(urllib2.open("http://thereckoner.ca").read())
 
 @ask.intent("HousePoints")
 def points(house):
