@@ -25,5 +25,6 @@ def headline():
     title = featurebox.parent.parent.previous_sibling.previous_sibling.find("a").string
     
     print(date, ' ', author, ' ', title)
+    print(featurebox.parent.parent.previous_sibling.previous_sibling.find("a")['href'])
 
 headline()

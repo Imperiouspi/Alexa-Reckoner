@@ -58,7 +58,6 @@ def headline():
     date = featurebox.previous_sibling.previous_sibling.string
     author = featurebox.previous_sibling.previous_sibling.previous_sibling.previous_sibling.string
     title = featurebox.parent.parent.previous_sibling.previous_sibling.find("a").string
-    
     print(date, ' ', author, ' ', title)
     return statement(render_template("headline", t=title, a=author, d=date))
 
