@@ -36,10 +36,12 @@ def points(house):
         "red house": "red", "house red": "red", "gryffindor": "red",
         "yellow house": "yellow", "house yellow": "yellow", "hufflepuff": "yellow"
     }
-    if house not in synonyms:
-        house = None
-    else:
+    if house in ["blue", "green", "red", "yellow"]:
+        normHouse = house
+    elif house in synonyms:
         normHouse = synonyms[house]
+    else:
+        house = None
 
     if house is None:
         return statement(render_template("points_all", p=housePoints))
