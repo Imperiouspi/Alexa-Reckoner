@@ -1,0 +1,5 @@
+SLOT TYPE: MGCIHouses
+red
+green
+blue
+yellow
