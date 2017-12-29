@@ -86,6 +86,11 @@ celerybeat-schedule
 .venv
 venv/
 ENV/
+include/
+bin/
+lib/
+man/
+share/
 
 # Spyder project settings
 .spyderproject
