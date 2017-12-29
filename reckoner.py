@@ -2,6 +2,7 @@
 An Alexa skill to look up content from The Reckoner homepage.
 """
 
+import re
 import urllib.request
 
 import bs4
@@ -18,16 +19,34 @@ reckonerPage = bs4.BeautifulSoup(urllib.request.urlopen(req).read())
 def points(house):
     """Return a summary of the house points (or all of them)"""
 
-    if house is None:
-        points = {
-            "r": 450,
-            "g": 450,
-            "y": 450,
-            "b": 450
-        }
-        return statement(render_template("points_all", p=points))
+    ## Scrape house points
+    # First, get the contents of the <script> that manipulates the
+    # house points bar graph. That contains a JS object with the
+    # points. Next, use a regex to find (colour, points)
+    # pairs. Finally, convert the list of pairs to a dict.
+    script = reckonerPage.find(id="mgci-points-wrapper").next_sibling.next_sibling.string
+    pointsExtractor = re.compile(r"\"mgci-points-(blue|green|red|yellow)\": ?(\d+)")
+    pointsGroups = pointsExtractor.findall(script)
+    housePoints = dict(pointsGroups)
 
-    return statement(render_template("points", h=house, p=450))
+    # Normalize house names
+    synonyms = {
+        "blue house": "blue", "house blue": "blue", "ravenclaw": "blue",
+        "green house": "green", "house green": "green", "slytherin": "green",
+        "red house": "red", "house red": "red", "gryffindor": "red",
+        "yellow house": "yellow", "house yellow": "yellow", "hufflepuff": "yellow"
+    }
+    if house in ["blue", "green", "red", "yellow"]:
+        normHouse = house
+    elif house in synonyms:
+        normHouse = synonyms[house]
+    else:
+        house = None
+
+    if house is None:
+        return statement(render_template("points_all", p=housePoints))
+    else:
+        return statement(render_template("points", h=house, p=housePoints[normHouse]))
 
 @ask.intent("Headline")
 def headline():
