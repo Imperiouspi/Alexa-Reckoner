@@ -12,24 +12,8 @@ app = Flask(__name__)
 ask = Ask(app, "/")
 
 req = urllib.request.Request("http://www.thereckoner.ca/", headers={"User-Agent": "Mozilla/5.0"})
-reckonerPage = bs4.BeautifulSoup(urllib.request.urlopen(req).read())
+reckonerPage = bs4.BeautifulSoup(urllib.request.urlopen(req).read(), 'lxml')
 
-@ask.intent("HousePoints")
-def points(house):
-    """Return a summary of the house points (or all of them)"""
-
-    if house is None:
-        points = {
-            "r": 450,
-            "g": 450,
-            "y": 450,
-            "b": 450
-        }
-        return statement(render_template("points_all", p=points))
-
-    return statement(render_template("points", h=house, p=450))
-
-@ask.intent("Headline")
 def headline():
     date = 0
     author = 0
@@ -41,7 +25,5 @@ def headline():
     title = featurebox.parent.parent.previous_sibling.previous_sibling.find("a").string
     
     print(date, ' ', author, ' ', title)
-    return statement(render_template("headline", t=title, a=author, d=date))
 
-if __name__ == "__main__":
-    app.run(debug=True)
+headline()
