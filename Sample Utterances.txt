@@ -1,0 +1,19 @@
+Headline what is the headline
+Headline to tell me the headline
+Headline tell me the headline
+Headline headline
+Headline give me the headline
+Headline to give me the headline
+HousePoints the house scores
+HousePoints the house points
+HousePoints the score for {house}
+HousePoints the points for {house}
+HousePoints the house points for {house}
+HousePoints the house score for {house}
+HousePoints how many points does {house} have
+HousePoints how many house points does {house} have
+HousePoints what score does {house} have
+HousePoints what are the house scores
+HousePoints what are the house points
+HousePoints what the house points are
+HousePoints what the house scores are
