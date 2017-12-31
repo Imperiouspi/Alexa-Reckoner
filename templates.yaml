@@ -1,10 +1,12 @@
 points: '{{ h }} has {{ p }} points.'
 
-points_all: 'blue has {{ p["blue"] }} points, green has {{ p["green"]
-  }} points, red has {{ p["red"] }} points, and yellow has {{
-  p["yellow"] }} points.'
+points_all: >
+  'blue has {{ p["blue"] }} points, green has {{ p["green"] }} points,
+  red has {{ p["red"] }} points, and yellow has {{ p["yellow"] }}
+  points.'
 
 headline: 'the headline is {{ t }}, published by {{ a }} on {{ d }}.'
 
-announcements: 'The most recent announcements are from {{ date }}. {% for
-  a in announcements %}{{ a["title"] }}: {{ a["content"] }}{% endfor %}'
+announcements: >
+  'The most recent announcements are from {{ date }}. {% for a in
+  announcements %}{{ a["title"] }}: {{ a["content"] }}{% endfor %}'
