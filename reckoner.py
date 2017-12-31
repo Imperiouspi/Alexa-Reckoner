@@ -19,15 +19,7 @@ reckonerPage = bs4.BeautifulSoup(urllib.request.urlopen(req).read())
 def points(house):
     """Return a summary of the house points (or all of them)"""
 
-    ## Scrape house points
-    # First, get the contents of the <script> that manipulates the
-    # house points bar graph. That contains a JS object with the
-    # points. Next, use a regex to find (colour, points)
-    # pairs. Finally, convert the list of pairs to a dict.
-    script = reckonerPage.find(id="mgci-points-wrapper").next_sibling.next_sibling.string
-    pointsExtractor = re.compile(r"\"mgci-points-(blue|green|red|yellow)\": ?(\d+)")
-    pointsGroups = pointsExtractor.findall(script)
-    housePoints = dict(pointsGroups)
+    housePoints = scrape_points()
 
     # Normalize house names
     synonyms = {
@@ -50,16 +42,38 @@ def points(house):
 
 @ask.intent("Headline")
 def headline():
-    date = 0
-    author = 0
-    title = 0
+    info = scrape_headline()
+    print(info["date"], ' ', info["author"], ' ', info["title"])
+    return statement(render_template("info", t=info["title"], a=info["author"], d=info["date"]))
+
+def scrape_points():
+    """
+    Scrape house points from thereckoner.ca.
+
+    First, get the contents of the <script> that manipulates the house
+    points bar graph.  That contains a JS object with the points.
+    Next, use a regex to find (colour, points) pairs.  Finally,
+    convert the list of pairs to a dict and return.
+    """
+
+    script = reckonerPage.find(id="mgci-points-wrapper").next_sibling.next_sibling.string # The <script> containing the points
+    pointsExtractor = re.compile(r"\"mgci-points-(blue|green|red|yellow)\": ?(\d+)") # Extractor regex
+    pointsGroups = pointsExtractor.findall(script) # Extract points and colour
+    return dict(pointsGroups)
+
+def scrape_headline():
+    """
+    Scrape the headline from thereckoner.ca.
+
+    Returns title, author, and date in a dict.
+    """
 
     featurebox = reckonerPage.find(href="http://www.thereckoner.ca/category/featured-post/")
     date = featurebox.previous_sibling.previous_sibling.string
     author = featurebox.previous_sibling.previous_sibling.previous_sibling.previous_sibling.string
     title = featurebox.parent.parent.previous_sibling.previous_sibling.find("a").string
-    print(date, ' ', author, ' ', title)
-    return statement(render_template("headline", t=title, a=author, d=date))
+
+    return {"date": date, "author": author, "title": title}
 
 if __name__ == "__main__":
     app.run(debug=True)
