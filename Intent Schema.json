@@ -20,6 +20,9 @@
         }
       ],
       "intent": "HousePoints"
+    },
+    {
+      "intent": "Announcements"
     }
   ]
 }
