@@ -103,5 +103,31 @@ def scrape_announcements():
 
     return announceDate, announcements
 
+def scrape_latest(n):
+    """
+    Scrape the latest articles from thereckoner.ca.
+
+    n: the number of articles to scrape
+
+    Returns a list of title and date in a dict.
+    """
+
+    articlesTitle = reckonerPage(text=re.compile(r"Recent Articles"))[0]
+    articlesBox = articlesTitle.parent.parent.parent
+
+    allArticles = articlesBox.find_all("article")
+
+    articles = []
+    for num, ar in enumerate(allArticles):
+        if num >= n:
+            break
+
+        date = ar.div.div.div.span.string
+        title = ar.a["title"]
+
+        articles.append({"title": title, "date": date})
+
+    return articles
+
 if __name__ == "__main__":
     app.run(debug=True)
