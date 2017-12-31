@@ -24,3 +24,29 @@ Announcements announcements
 Announcements are there any announcements
 Announcements the most recent announcements
 Announcements are there announcements
+Recent what are the {num} newest articles
+Recent what are the {num} latest articles
+Recent what are the {num} recent articles
+Recent the new articles
+Recent the {num} recent articles
+Recent the {num} most recent articles
+Recent the {num} latest articles
+Recent the {num} newest articles
+Recent some new articles
+Recent some recent articles
+Recent {num} articles
+Recent {num} recent articles
+Recent {num} latest articles
+Recent what are the {num} newest posts
+Recent what are the {num} latest posts
+Recent what are the {num} recent posts
+Recent the new posts
+Recent the {num} recent posts
+Recent the {num} most recent posts
+Recent the {num} latest posts
+Recent the {num} newest posts
+Recent some new posts
+Recent some recent posts
+Recent {num} posts
+Recent {num} recent posts
+Recent {num} latest posts

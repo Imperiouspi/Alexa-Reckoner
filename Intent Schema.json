@@ -23,6 +23,15 @@
     },
     {
       "intent": "Announcements"
+    },
+    {
+      "slots": [
+        {
+          "name": "num",
+          "type": "AMAZON.NUMBER"
+        }
+      ]
+      "intent": "Recent"
     }
   ]
 }
