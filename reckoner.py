@@ -75,5 +75,27 @@ def scrape_headline():
 
     return {"date": date, "author": author, "title": title}
 
+def scrape_announcements():
+    """
+    Scrape the most recent set of announcements from thereckoner.ca.
+
+    Returns the announcements the date and a list of announcements.
+    """
+
+    announceTitle = reckonerPage(text=re.compile(r"Announcements"))[0]
+    announceBox = announceTitle.parent.parent.parent
+    announceLink = announceBox.find(class_="main-post").article.find(class_="post-content").h2.a["href"]
+
+    # Scrape the announcements page
+    announceReq = urllib.request.Request(announceLink, headers={"User-Agent": "Mozilla/5.0"})
+    announcePage = bs4.BeautifulSoup(urllib.request.urlopen(announceReq).read())
+
+    announceDate = announcePage.find(class_="entry-title").string
+    announceTags = announcePage.find_all(class_="et_pb_accordion_item")
+
+    announcements = [{"title": tag.h5.string, "content": tag.div.p.string} for tag in announceTags]
+
+    return announceDate, announcements
+
 if __name__ == "__main__":
     app.run(debug=True)
