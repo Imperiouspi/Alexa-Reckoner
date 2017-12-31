@@ -10,3 +10,7 @@ headline: 'the headline is {{ t }}, published by {{ a }} on {{ d }}.'
 announcements: >
   'The most recent announcements are from {{ date }}. {% for a in
   announcements %}{{ a["title"] }}: {{ a["content"] }}{% endfor %}'
+
+recent: >
+  'The {{ num }} newest articles are: {% for a in articles
+  %}{{ a["title"] }}, published {{ a["date"] }}{% endfor %}'

@@ -52,6 +52,14 @@ def announcements():
 
     return statement(render_template("announcements", date=anDate, announcements=anList))
 
+@ask.intent("Recent", convert={"n": int})
+def recent(n):
+    if n is None:
+        n = 3
+    articles = scrape_latest(n)
+
+    return statement(render_template("recent", num=n, articles=articles))
+
 def scrape_points():
     """
     Scrape house points from thereckoner.ca.
