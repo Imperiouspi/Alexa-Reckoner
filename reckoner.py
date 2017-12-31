@@ -58,7 +58,7 @@ def recent(n):
         n = 3
     articles = scrape_latest(n)
 
-    return statement(render_template("recent", num=n, articles=articles))
+    return statement(render_template("recent", articles=articles))
 
 def scrape_points():
     """
