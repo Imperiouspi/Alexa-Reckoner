@@ -44,7 +44,13 @@ def points(house):
 def headline():
     info = scrape_headline()
     print(info["date"], ' ', info["author"], ' ', info["title"])
-    return statement(render_template("info", t=info["title"], a=info["author"], d=info["date"]))
+    return statement(render_template("headline", t=info["title"], a=info["author"], d=info["date"]))
+
+@ask.intent("Announcements")
+def announcements():
+    anDate, anList = scrape_announcements()
+
+    return statement(render_template("announcements", date=anDate, announcements=anList))
 
 def scrape_points():
     """

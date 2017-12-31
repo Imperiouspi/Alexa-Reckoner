@@ -5,3 +5,6 @@ points_all: 'blue has {{ p["blue"] }} points, green has {{ p["green"]
   p["yellow"] }} points.'
 
 headline: 'the headline is {{ t }}, published by {{ a }} on {{ d }}.'
+
+announcements: 'The most recent announcements are from {{ date }}. {% for
+  a in announcements %}{{ a["title"] }}: {{ a["content"] }}{% endfor %}'
